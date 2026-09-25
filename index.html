@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense &amp; Budget Visualizer</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <div class="app-wrapper">
+
+      <!-- Header -->
+      <header class="app-header">
+        <h1>💰 Expense &amp; Budget Visualizer</h1>
+        <p class="subtitle">Track your spending, visualize your habits</p>
+        <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+      </header>
+
+      <!-- Balance Banner -->
+      <section class="balance-banner" aria-label="Total Balance">
+        <span class="balance-label">Total Spent</span>
+        <span class="balance-amount" id="total-balance">$0.00</span>
+      </section>
+
+      <!-- Main Grid -->
+      <main class="main-grid">
+
+        <!-- Left Column: Form + Chart -->
+        <div class="left-col">
+
+          <!-- Add Expense Form -->
+          <section class="card" aria-label="Add Expense">
+            <h2 class="card-title">Add Expense</h2>
+            <form id="expense-form" novalidate>
+              <div class="form-group">
+                <label for="item-name">Item Name</label>
+                <input
+                  type="text"
+                  id="item-name"
+                  placeholder="e.g. Coffee, Bus ticket…"
+                  maxlength="60"
+                  autocomplete="off"
+                />
+                <span class="field-error" id="err-name" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="item-amount">Amount</label>
+                <input
+                  type="number"
+                  id="item-amount"
+                  placeholder="0.00"
+                  min="0.01"
+                  step="0.01"
+                />
+                <span class="field-error" id="err-amount" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="item-category">Category</label>
+                <select id="item-category">
+                  <option value="">— Select category —</option>
+                  <option value="Food">🍔 Food</option>
+                  <option value="Transport">🚌 Transport</option>
+                  <option value="Fun">🎉 Fun</option>
+                </select>
+                <span class="field-error" id="err-category" aria-live="polite"></span>
+              </div>
+
+              <button type="submit" class="btn-primary">+ Add Expense</button>
+            </form>
+          </section>
+
+          <!-- Pie Chart -->
+          <section class="card chart-card" aria-label="Spending by Category">
+            <h2 class="card-title">Spending by Category</h2>
+            <div class="chart-container">
+              <canvas id="expense-chart" aria-label="Pie chart of expenses by category" role="img"></canvas>
+              <p class="chart-empty" id="chart-empty-msg">No data yet — add an expense to see the chart.</p>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Right Column: Transaction List -->
+        <div class="right-col">
+          <section class="card transactions-card" aria-label="Transaction List">
+            <div class="transactions-header">
+              <h2 class="card-title">Transactions</h2>
+              <span class="transaction-count" id="transaction-count">0 items</span>
+            </div>
+
+            <div class="transactions-list" id="transaction-list" aria-live="polite">
+              <!-- Items rendered by JS -->
+              <div class="empty-state" id="empty-state">
+                <span class="empty-icon">📭</span>
+                <p>No transactions yet.<br />Add one to get started!</p>
+              </div>
+            </div>
+
+        <!--Sort by Amount/Category -->
+        <div class="sort-controls">
+          <label for="sort-select">Sort by:</label>
+            <select id="sort-select">
+              <option value="date-desc">Newest First</option>
+              <option value="date-asc">Oldest First</option>
+              <option value="amount-desc">Amount: High → Low</option>
+              <option value="amount-asc">Amount: Low → High</option>
+              <option value="category">Category (A–Z)</option>
+            </select>
+        </div>  
+        
+        <!-- Monthly Summary-->
+        <div class="monthly-summary" id="monthly-summary">
+          <h3>This Month</h3>
+          <div class="summary-row">
+            <span>Total Spent</span>
+            <span id="month-total">$0.00</span>
+          </div>
+          <div class="summary-row">
+            <span>Transactions</span>
+            <span id="month-count">0</span>
+          </div>
+          <div class="summary-row">
+            <span>Top Category</span>
+            <span id="month-top-category">–</span>
+          </div>
+        </div>
+          </section>
+        </div>
+
+      </main>
+
+    </div><!-- /.app-wrapper -->
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
